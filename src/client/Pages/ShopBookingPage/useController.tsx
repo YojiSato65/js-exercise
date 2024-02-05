@@ -7,7 +7,6 @@ type Controller = {
   title: string;
   isCTAOpen: boolean;
   openCTA(): void;
-  closeCTA(): void;
   renderModal(): JSX.Element;
 };
 
@@ -19,6 +18,12 @@ export function useController(): Controller {
     partySize: new PartySize(shop.config, menu.items),
   });
 
+  const handleClose = () => {
+    setState((d) => {
+      d.isCTAOpen = false;
+    });
+  }
+  
   const api: Controller = {
     ...state,
     title: `welcome to ${shop.config.slug}`,
@@ -27,17 +32,12 @@ export function useController(): Controller {
         d.isCTAOpen = true;
       });
     },
-    closeCTA() {
-      setState((d) => {
-        d.isCTAOpen = false;
-      });
-    },
     renderModal() {
       return (
-        <dialog open={this.isCTAOpen} data-testid="Party Size Modal">
-          <PartySizeList partySize={this.partySize} />
+        <dialog open={state.isCTAOpen} data-testid="Party Size Modal">
+          <PartySizeList partySize={state.partySize} />
 
-          <button onClick={this.closeCTA}>close</button>
+          <button onClick={handleClose}>close</button>
         </dialog>
       );
     },
