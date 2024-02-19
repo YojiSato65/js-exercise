@@ -80,21 +80,6 @@ export class OASClientFromSpec {
                 )
               )
             );
-  
-            const clientMethodKeyId = `${method.toLowerCase()} ${path.replace(
-              /{([^}]+)}/g,
-              ":id"
-            )} ${statusCode}`;
-  
-            properties.push(
-              b.property(
-                "init",
-                b.literal(clientMethodKeyId),
-                this.buildClientMethodDefinition(
-                  this.buildAstFromJson(jsonSchema)
-                )
-              )
-            );
           }
         );
       });
